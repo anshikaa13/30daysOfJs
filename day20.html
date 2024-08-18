@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <h4 id="displayNameLocal">Hello, User (email) --> LocalStorage</h4>
+    <h4 id="displayNameSession">Hello, User (email) --> SessionStorage</h4>
+    <form>
+        <input id="username" type="text" placeholder="username">
+        <br>
+        <input id="email" type="email" placeholder="email">
+        <br>
+        <button id="button" type="button">Submit</button>
+    </form>
+    <script>
+        // Activity 1: Understanding Local Storage
+        // Task 1
+        localStorage.setItem("username", "john");
+    
+        // Task 2
+        let obj = { name: "john", age: 22 };
+        localStorage.setItem("object", JSON.stringify(obj));
+
+        let retrievedStr = localStorage.getItem("object");
+        let retrievedObj = JSON.parse(retrievedStr);
+        console.log(retrievedObj);
+        // output:  {name: 'john', age: 22}
+
+        // Activity 2: Using LocalStorage
+        // Task 3
+        let nameInput = document.getElementById("username");
+        let emailInput = document.getElementById("email");
+        let btn = document.getElementById("button");
+
+        btn.addEventListener("click", () => {
+            localStorage.setItem("name", nameInput.value);
+            localStorage.setItem("email", emailInput.value);
+            location.reload(); // Refresh to show updated data
+        });
+
+        window.addEventListener("load", () => {
+            let retrievedName = localStorage.getItem("name");
+            let retrievedEmail = localStorage.getItem("email");
+            let displayLocal = document.getElementById("displayNameLocal");
+            displayLocal.innerText = `Hello, ${retrievedName} (${retrievedEmail}) --> LocalStorage`;
+        });
+
+        // Task 4
+        console.log("Originally: ");
+        for (let i = 0; i < localStorage.length; i++) {
+            console.log(`Key: ${localStorage.key(i)}  Value: ${localStorage.getItem(localStorage.key(i))}`);
+        }
+
+        localStorage.removeItem("username");
+
+        console.log("After removing 1 key: ");
+        for (let i = 0; i < localStorage.length; i++) {
+            console.log(`Key: ${localStorage.key(i)}  Value: ${localStorage.getItem(localStorage.key(i))}`);
+        }
+        // output:
+        //Originally: 
+        //  Key: key2  Value: value2
+        //  Key: username  Value: john
+        //  Key: email  Value: nitikasheoran5@gmail.com
+        //  Key: name  Value: nitika
+        //  Key: key1  Value: value1
+        //  Key: object  Value: {"name":"john","age":22}
+
+        // After removing 1 key: 
+        //  Key: key2  Value: value2
+        //  Key: email  Value: nitikasheoran5@gmail.com
+        //  Key: name  Value: nitika
+        //  Key: key1  Value: value1
+        //  Key: object  Value: {"name":"john","age":22}
+        // Activity 3: Understanding SessionStorage
+        
+        
+        // Task 5
+        sessionStorage.setItem("str", "hello");
+        console.log(sessionStorage.getItem("str"));
+        // output: hello
+
+        // Task 6
+        obj = { name: "john", age: 22 };
+        sessionStorage.setItem("object", JSON.stringify(obj));
+        retrievedStr = sessionStorage.getItem("object");
+        retrievedObj = JSON.parse(retrievedStr);
+        console.log(retrievedObj);
+        // output: {name: 'john', age: 22}
+
+        // Activity 4: Using SessionStorage
+        // Task 7
+        btn.addEventListener("click", () => {
+            sessionStorage.setItem("name", nameInput.value);
+            sessionStorage.setItem("email", emailInput.value);
+            location.reload(); // Refresh to show updated data
+        });
+
+        window.addEventListener("load", () => {
+            let retrievedName = sessionStorage.getItem("name");
+            let retrievedEmail = sessionStorage.getItem("email");
+            let displaySession = document.getElementById("displayNameSession");
+            displaySession.innerText = `Hello, ${retrievedName} (${retrievedEmail}) --> SessionStorage`;
+        });
+
+        // Task 8: 
+        console.log("Originally: ");
+        for (let i = 0; i < sessionStorage.length; i++) {
+            console.log(`Key: ${sessionStorage.key(i)}  Value: ${sessionStorage.getItem(sessionStorage.key(i))}`);
+        }
+
+        sessionStorage.removeItem("str");
+
+        console.log("After removing 1 key: ");
+        for (let i = 0; i < sessionStorage.length; i++) {
+            console.log(`Key: ${sessionStorage.key(i)}  Value: ${sessionStorage.getItem(sessionStorage.key(i))}`);
+        }
+        // output:
+        // Originally: 
+            //  Key: key2  Value: value2
+            //  Key: email  Value: nitikasheoran5@gmail.com
+            //  Key: str  Value: hello
+            //  Key: name  Value: nitika
+            //  Key: key1  Value: value1
+            //  Key: object  Value: {"name":"john","age":22}
+        // After removing 1 key: 
+            //  Key: key2  Value: value2
+            //  Key: email  Value: nitikasheoran5@gmail.com
+            //  Key: name  Value: nitika
+            //  Key: key1  Value: value1
+            //  Key: object  Value: {"name":"john","age":22}
+        
+
+        // Activity 5: Comparing LocalStorage and SessionStorage
+        // Task 9
+        function saveValues(key, value) {
+            localStorage.setItem(key, value);
+            sessionStorage.setItem(key, value);
+        }
+
+        function retrieve() {
+            console.log("LocalStorage");
+            for (let i = 0; i < localStorage.length; i++) {
+                console.log(`Key: ${localStorage.key(i)}  Value: ${localStorage.getItem(localStorage.key(i))}`);
+            }
+
+            console.log("SessionStorage");
+            for (let i = 0; i < sessionStorage.length; i++) {
+                console.log(`Key: ${sessionStorage.key(i)}  Value: ${sessionStorage.getItem(sessionStorage.key(i))}`);
+            }
+        }
+
+        saveValues("key1", "value1");
+        saveValues("key2", "value2");
+        retrieve();
+
+        // output:
+        // LocalStorage
+            //  Key: key2  Value: value2
+            //  Key: email  Value: nitikasheoran5@gmail.com
+            //  Key: name  Value: nitika
+            //  Key: key1  Value: value1
+            //  Key: object  Value: {"name":"john","age":22}
+        //  SessionStorage
+            //  Key: IsThisFirstTime_Log_From_LiveServer  Value: true
+            //  Key: key2  Value: value2
+            //  Key: email  Value: nitikasheoran5@gmail.com
+            //  Key: name  Value: nitika
+            //  Key: key1  Value: value1
+            //  Key: object  Value: 
+
+
+        // Task 10
+        // Clearing localStorage and sessionStorage
+        // localStorage.clear();
+        // sessionStorage.clear();
+    </script>
+</body>
+</html>
